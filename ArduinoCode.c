@@ -17,10 +17,6 @@
 #include <Button.h> // needed for the buttons 
 
 int RunBtn = 13;
-int NextBtn = 12; // unused delete and follow chain of delete below
-int PrevBtn = 10; // used delete 
-//int SaveBtn = 9;  // unsed delete 
-
 int ChangeScanBtn = 9;
 
 int buttonState = 0;
@@ -145,15 +141,9 @@ void setup()/*----( SETUP: RUNS ONCE )----*/
   // --- button setup
 
   pinMode(RunBtn, INPUT);
-  pinMode(NextBtn, INPUT);
-  pinMode(PrevBtn, INPUT);
- // pinMode(SaveBtn, INPUT);
   pinMode(ChangeScanBtn, INPUT);
 
   digitalWrite(RunBtn, HIGH);
-  digitalWrite(NextBtn, HIGH);
-  digitalWrite(PrevBtn, HIGH);
- // digitalWrite(SaveBtn, HIGH);
   digitalWrite(ChangeScanBtn, HIGH);
 
 
@@ -206,19 +196,16 @@ void setup()/*----( SETUP: RUNS ONCE )----*/
 void loop()   /*----( LOOP: RUNS CONSTANTLY )----*/
 {
   loopCount = 0;
-  
   changeState = digitalRead(ChangeScanBtn);
   
   if (!changeState)
  {
     if (scanRange == 1) //scan range start high
     {
-
     scanRange = 0;
-
     for (int i = 0; i < 100; i++){
       scanRange = 0; //terrible hack to add delay
-       Serial.print("wait") ;
+       Serial.print("wait");
     } 
     //LOW SCAN
     double lowfreq = 800.0;  // 1115.0 calculated frequency for 0.3N ( 30gm) tension of 79mm wire ORIGINAL 
@@ -233,13 +220,10 @@ void loop()   /*----( LOOP: RUNS CONSTANTLY )----*/
     
     else if (scanRange == 0)
     {
-
     scanRange = 1;
-
     for (int i = 0; i < 100; i++){
       scanRange = 1; //terrible hack to add delay
       Serial.print("wait") ;
-
     }     
   //HIGH SCAN
     double lowfreq = 1115.0;  // 1115.0 calculated frequency for 0.3N ( 30gm) tension of 79mm wire
@@ -303,9 +287,6 @@ void loop()   /*----( LOOP: RUNS CONSTANTLY )----*/
 
 /* --(end main loop )-- */
 
-
-
-
 //******************************************************************
 // Timer2 Interrupt Service at 31372,550 KHz = 32uSec
 // this is the timebase REFCLOCK for the DDS generator
@@ -340,7 +321,6 @@ ISR(TIMER2_OVF_vect)
     sbi(PORTD, 7); cbi(PORTD, 7); // output pulse on pin D7 for scope in phase with output frequency
 
   }
-
 }
 //******************************************************************
 // timer2 setup
@@ -375,7 +355,6 @@ double FindTension()
        lcd.setCursor(0, 0);
        lcd.print("      RUNNING      ");
 
-      delay(50);
       sweep =  true;
       while (sweep == true)
       {
@@ -490,12 +469,10 @@ double FindTension()
               Tensiondn = 0;
               Tensiondn = LMDX * centrefreqdnKHz * centrefreqdnKHz; // in grams
               lcd.setCursor(8, 3);
-              //lcdprintDouble(Tensiondn,1);
               lcd.print(Tensiondn);
             }
             else if (foundmaxdn == false || foundmaxup == false)
-            {
-    
+            {    
               connection = true;          // assume wire is connected
               if (analogRead(2) > 30)
               { connection = false;        // no wire connected
@@ -511,7 +488,6 @@ double FindTension()
                 lcd.print("T                   ");
 
               }
-    
             }
             maxanalogval = 0;
             overmaxcount = 0;
